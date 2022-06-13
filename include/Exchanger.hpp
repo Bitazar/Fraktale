@@ -22,7 +22,7 @@ namespace fractal {
         Tp get(uint32_t key)
             { return exchangeLib.at(key); }
 
-        ~Exchanger(void)
+        ~Exchanger(void);
     private:
         std::map<uint32_t, Tp>              exchangeLib;
         std::atomic<uint32_t>               addressQueue;

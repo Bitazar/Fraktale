@@ -6,7 +6,8 @@ from parameter_dialog import ParameterDialog
 
 import sys
 
-from mandelbrot import Mandelbrot
+# from mandelbrot import Mandelbrot
+from mandelbort_c import Mandelbrot
 
 
 # Image size (pixels)
@@ -15,7 +16,7 @@ HEIGHT = 400
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, parent: QWidget | None = None) -> None:
+    def __init__(self, parent: QWidget = None) -> None:
         super().__init__(parent)
         self.__ui = Ui_MainWindow()
         self.__ui.setupUi(self)
