@@ -10,9 +10,9 @@ Color = Tuple[int, int, int]
 
 
 class System(Enum):
-    RGB = 0x01,
-    HSV = 0x02,
-    YCbCr = 0x03,
+    RGB = 0x01
+    HSV = 0x02
+    YCbCr = 0x03
     YUV = 0x04
 
 
@@ -35,7 +35,7 @@ class Gradient:
         return self.__gradient
 
     def change_system(self, system: System) -> None:
-        library.change_gradient_system(self.ctype, c_uint8(system.value[0]))
+        library.change_gradient_system(self.ctype, c_uint8(system.value))
 
     @property
     def lower_limit(self) -> Color:

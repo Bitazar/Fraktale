@@ -8,8 +8,10 @@ namespace fractal {
                 return rgb(value);
             case Palletes::HSV:
                 return hsv(value);
+            case Palletes::YCbCr:
+                return ycbcr(value);
         }
-
+        return yuv(value);
     }
 
     Gradient::Pixel Gradient::rgb(uint8_t value) const noexcept {
@@ -48,6 +50,25 @@ namespace fractal {
                 return {t, p, value};
         }
         return {value, p, q};
+    }
+
+    Gradient::Pixel Gradient::ycbcr(uint8_t value) const noexcept {
+        uint8_t luminancy = interpolate<0>(value);
+        uint8_t blue = interpolate<1>(value);
+        uint8_t red = interpolate<2>(value);
+        uint16_t green = 3 * luminancy - blue - red;
+        return {red, static_cast<uint8_t>(green), blue};
+    }
+
+    Gradient::Pixel Gradient::yuv(uint8_t value) const noexcept {
+        double y = interpolate<0>(value) - 16;
+        double u = interpolate<1>(value) - 128;
+        double v = interpolate<2>(value) - 128;
+        return {
+            1.164 * y + 1.596 * v,
+            1.164 * y - 0.392 * u - 0.813 * v,
+            1.164 * y + 2.017 * u
+        };
     }
 
     void Gradient::changeSystem(uint8_t system) {

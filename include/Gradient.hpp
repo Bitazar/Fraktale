@@ -51,6 +51,8 @@ namespace fractal {
 
         Pixel rgb(uint8_t value) const noexcept;
         Pixel hsv(uint8_t value) const noexcept;
+        Pixel ycbcr(uint8_t value) const noexcept;
+        Pixel yuv(uint8_t value) const noexcept;
 
     };
 
