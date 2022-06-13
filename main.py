@@ -7,7 +7,7 @@ from parameter_dialog import ParameterDialog
 import sys
 
 # from mandelbrot import Mandelbrot
-from mandelbort_c import Mandelbrot
+from mandelbrot import Mandelbrot
 
 
 # Image size (pixels)

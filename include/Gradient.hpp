@@ -1,3 +1,5 @@
+#pragma once
+
 #include <tuple>
 #include <inttypes.h>
 
@@ -10,13 +12,13 @@ namespace fractal {
         explicit Gradient(Pixel const& lowerLimit, Pixel const& upperLimit)
             : lowerLimit{lowerLimit}, upperLimit{upperLimit} {}
 
-        Pixel operator() (uint8_t value);
+        Pixel operator() (uint8_t value) const;
     private:
         Pixel                                               lowerLimit;
         Pixel                                               upperLimit;
 
         template <uint8_t Axis>
-        uint8_t interpolate(uint8_t value) {
+        uint8_t interpolate(uint8_t value) const {
             int16_t range = std::get<Axis>(upperLimit) - std::get<Axis>(lowerLimit);
             int16_t scaled = (int16_t) std::get<Axis>(lowerLimit) + range * value / 255;
             return scaled < 256 ? (

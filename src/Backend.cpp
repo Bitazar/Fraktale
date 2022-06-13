@@ -15,16 +15,16 @@ extern "C" uint32_t create_mandelbrot(
 }
 
 extern "C" void generate_mandelbrot(
-    uint32_t ptr, uint8_t* memory, uint32_t width, uint32_t height)
+    uint32_t ptr, uint8_t* memory, uint32_t width, uint32_t height, uint32_t gradPtr)
 {
-    mandelbrots.get(ptr)->generate(memory, width, height);
+    mandelbrots.get(ptr)->generate(memory, width, height, gradients.get(gradPtr));
 }
 
 extern "C" void generate_mandelbrot_parallel(
-    uint32_t ptr, uint8_t* memory, uint32_t width, uint32_t height,
+    uint32_t ptr, uint8_t* memory, uint32_t width, uint32_t height, uint32_t gradPtr,
     int32_t threads)
 {
-    mandelbrots.get(ptr)->generateParallel(memory, width, height, threads);
+    mandelbrots.get(ptr)->generateParallel(memory, width, height, gradients.get(gradPtr), threads);
 }
 
 extern "C" uint32_t generate_gradient(

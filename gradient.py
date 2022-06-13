@@ -1,20 +1,25 @@
-from dataclasses import dataclass
+from ctypes import c_void_p, c_double, c_uint8
 from typing import Tuple
+
+from lib import library
 
 
 Color = Tuple[int, int, int]
 
-@dataclass(frozen=True)
+
 class Gradient:
-    lower_limit: Color
-    upper_limit: Color
+    def __init__(self, lower_limit: Color, upper_limit: Color) -> None:
+        self.__lower_limit = lower_limit
+        self.__upper_limit = upper_limit
+        self.__gradient = library.generate_gradient(
+            c_uint8(lower_limit[0]),
+            c_uint8(lower_limit[1]),
+            c_uint8(lower_limit[2]),
+            c_uint8(upper_limit[0]),
+            c_uint8(upper_limit[1]),
+            c_uint8(upper_limit[2])
+        )
 
-    def __interpolate(self, value: int, axis: int) -> int:
-        int_range = self.upper_limit[axis] - self.lower_limit[axis]
-        value = self.lower_limit[axis] + int_range * value // 255
-        return (value if value < 256 else 255) if value >= 0 else 0
-
-    def __call__(self, value: int) -> Color:
-        return tuple([ 
-            self.__interpolate(value, axis) for axis in range(3)
-        ])
+    @property
+    def ctype(self) -> int:
+        return self.__gradient

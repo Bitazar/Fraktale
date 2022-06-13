@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Exchanger.hpp"
+#include "Gradient.hpp"
 
 #include <complex.h>
 
@@ -13,20 +14,29 @@ namespace fractal {
         explicit Mandelbrot(uint32_t maxIterations, Complex start, Complex end)
             : maxIterations{maxIterations}, start{start}, end{end} {}
 
-        int operator() (Complex const& step) noexcept;
+        int operator() (Complex const& step) const noexcept;
 
-        void generate(uint8_t* memory, uint32_t width, uint32_t height);
+        void generate(
+            uint8_t* memory,
+            uint32_t width,
+            uint32_t height,
+            Gradient* gradient) const;
 
-        void generateParallel(uint8_t* memory, uint32_t width, uint32_t height, int32_t threads);
+        void generateParallel(
+            uint8_t* memory,
+            uint32_t width,
+            uint32_t height,
+            Gradient* gradient,
+            int32_t threads) const;
     private:
         Complex                                     start;
         Complex                                     end;
         uint32_t                                    maxIterations;
 
-        Complex getStep(uint32_t width, uint32_t height, uint32_t x, uint32_t y);
+        Complex getStep(uint32_t width, uint32_t height, uint32_t x, uint32_t y) const;
 
-        void generateSegment(uint8_t* memory, uint32_t width, uint32_t height,
-            uint32_t segmentHeight, uint32_t segmentStart);
+        void generateSegment(uint8_t* memory, uint32_t width, uint32_t height, Gradient* gradient,
+            uint32_t segmentHeight, uint32_t segmentStart) const;
     };
 
 }
