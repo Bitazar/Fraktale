@@ -29,10 +29,15 @@ extern "C" void generate_mandelbrot_parallel(
 
 extern "C" uint32_t generate_gradient(
     uint8_t lower_red, uint8_t lower_green, uint8_t lower_blue,
-    uint8_t upper_red, uint8_t upper_green, uint8_t upper_blue)
+    uint8_t upper_red, uint8_t upper_green, uint8_t upper_blue,
+    bool inverted)
 {
     return gradients.assign(new fractal::Gradient{
         {lower_red, lower_green, lower_blue},
-        {upper_red, upper_green, upper_blue}
+        {upper_red, upper_green, upper_blue}, inverted
     });
+}
+
+extern "C" void invert_gradient(uint32_t ptr) {
+    gradients.get(ptr)->invert();
 }
