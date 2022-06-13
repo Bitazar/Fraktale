@@ -36,3 +36,31 @@ class Gradient:
 
     def change_system(self, system: System) -> None:
         library.change_gradient_system(self.ctype, c_uint8(system.value[0]))
+
+    @property
+    def lower_limit(self) -> Color:
+        return self.__lower_limit
+
+    @property
+    def upper_limit(self) -> Color:
+        return self.__upper_limit
+
+    @lower_limit.setter
+    def lower_limit(self, lower_limit: Color) -> None:
+        self.__lower_limit = lower_limit
+        library.gradient_change_lower_limit(
+            self.ctype,
+            c_uint8(lower_limit[0]),
+            c_uint8(lower_limit[1]),
+            c_uint8(lower_limit[2]),
+        )
+
+    @lower_limit.setter
+    def lower_limit(self, upper_limit: Color) -> None:
+        self.__upper_limit = upper_limit
+        library.gradient_change_upper_limit(
+            self.ctype,
+            c_uint8(upper_limit[0]),
+            c_uint8(upper_limit[1]),
+            c_uint8(upper_limit[2]),
+        )

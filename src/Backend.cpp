@@ -45,3 +45,15 @@ extern "C" void invert_gradient(uint32_t ptr) {
 extern "C" void change_gradient_system(uint32_t ptr, uint8_t system) {
     gradients.get(ptr)->changeSystem(system);
 }
+
+extern "C" void gradient_change_lower_limit(uint32_t ptr,
+    uint8_t lower_red, uint8_t lower_green, uint8_t lower_blue)
+{
+    gradients.get(ptr)->changeLowerLimit({lower_red, lower_green, lower_blue});
+}
+
+extern "C" void gradient_change_upper_limit(uint32_t ptr,
+    uint8_t upper_red, uint8_t upper_green, uint8_t upper_blue)
+{
+    gradients.get(ptr)->changeLowerLimit({upper_red, upper_green, upper_blue});
+}

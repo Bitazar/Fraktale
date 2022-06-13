@@ -22,6 +22,12 @@ namespace fractal {
             bool inverted = false)
             : lowerLimit{lowerLimit}, upperLimit{upperLimit}, inverted{inverted} {}
 
+        void changeUpperLimit(Pixel const& limit) noexcept
+            { upperLimit = limit; }
+
+        void changeLowerLimit(Pixel const& limit) noexcept
+            { lowerLimit = limit; }
+
         void invert(void) noexcept
             { inverted = !inverted; }
 
