@@ -9,6 +9,13 @@ namespace fractal {
     public:
         typedef std::tuple<uint8_t, uint8_t, uint8_t>       Pixel;
 
+        enum class Palletes : uint8_t {
+            RGB                                             = 0x01,
+            HSV                                             = 0x02,
+            YCbCr                                           = 0x04,
+            YUV                                             = 0x08
+        };
+
         explicit Gradient(
             Pixel const& lowerLimit,
             Pixel const& upperLimit,
@@ -18,10 +25,13 @@ namespace fractal {
         void invert(void) noexcept
             { inverted = !inverted; }
 
+        void changeSystem(uint8_t system);
+
         Pixel operator() (uint8_t value) const;
     private:
         Pixel                                               lowerLimit;
         Pixel                                               upperLimit;
+        Palletes                                            pallete = Palletes::RGB;
         bool                                                inverted;
 
         template <uint8_t Axis>
@@ -32,6 +42,10 @@ namespace fractal {
                 scaled >= 0 ? static_cast<uint8_t>(scaled) : 0 ) : 255;
             return inverted ? 255 - result : result;
         }
+
+        Pixel rgb(uint8_t value) const noexcept;
+        Pixel hsv(uint8_t value) const noexcept;
+
     };
 
 }

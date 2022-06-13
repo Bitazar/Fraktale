@@ -41,3 +41,7 @@ extern "C" uint32_t generate_gradient(
 extern "C" void invert_gradient(uint32_t ptr) {
     gradients.get(ptr)->invert();
 }
+
+extern "C" void change_gradient_system(uint32_t ptr, uint8_t system) {
+    gradients.get(ptr)->changeSystem(system);
+}

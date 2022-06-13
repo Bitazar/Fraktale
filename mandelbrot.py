@@ -1,6 +1,6 @@
 from ctypes import c_void_p, c_double
 
-from gradient import Gradient
+from gradient import Gradient, System
 from lib import library
 
 import numpy as np
@@ -22,6 +22,7 @@ class Mandelbrot:
             gradient: Gradient = None) -> np.ndarray:
         if gradient is None:
             gradient = Gradient((0, 0, 0), (255, 255, 255))
+        gradient.change_system(System.HSV)
         image = np.zeros((height, width, 3), dtype=np.uint8)
         library.generate_mandelbrot_parallel(self.__obj,
             image.ctypes.data_as(c_void_p),
