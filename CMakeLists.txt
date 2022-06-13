@@ -6,7 +6,7 @@ project(backend VERSION 1 DESCRIPTION "fractals backend")
 
 include(GNUInstallDirs)
 
-add_library(backend SHARED src/Backend.cpp src/Mandelbrot.cpp)
+add_library(backend SHARED src/Backend.cpp src/Mandelbrot.cpp src/Gradient.cpp)
 
 set_target_properties(backend PROPERTIES
     VERSION ${PROJECT_VERSION}
