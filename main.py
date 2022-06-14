@@ -1,8 +1,9 @@
 from PySide6.QtWidgets import QApplication, QWidget, QMainWindow
 from PySide6.QtGui import QImage, QPixmap
+
 from gradient import Gradient
 
-from mainWindow import Ui_MainWindow
+from mainWindows import Ui_Fraktale
 from parameter_dialog import ParameterDialog
 
 import sys
@@ -16,16 +17,26 @@ from mandelbrot import Mandelbrot
 WIDTH = 600
 HEIGHT = 400
 
+FRACTALS = [
+    Mandelbrot(),
+    Julia(),
+    BarnsleyFern()
+]
+
 
 class MainWindow(QMainWindow):
     def __init__(self, parent: QWidget = None) -> None:
         super().__init__(parent)
-        self.__ui = Ui_MainWindow()
+        self.__ui = Ui_Fraktale()
         self.__ui.setupUi(self)
-        self.__fractal = Mandelbrot()
+        self.__ui.comboBox.currentIndexChanged.connect(self.__change_fractal)
+        self.__fractal = FRACTALS[0]
         self.__gradient = Gradient([0, 0, 0], [255, 255, 255])
         self.__ui.generatingButton.clicked.connect(self.__generate_fractal)
         self.__ui.pushButton.clicked.connect(self.__change_parameters)
+
+    def __change_fractal(self, index: int) -> None:
+        self.__fractal = FRACTALS[index]
 
     def __change_parameters(self) -> None:
         dialog = ParameterDialog(self.__gradient, self)

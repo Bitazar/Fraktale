@@ -21,7 +21,7 @@ class Gradient:
         self.__lower_limit = lower_limit
         self.__upper_limit = upper_limit
         self.__inverted = inverted
-        self.__system = System.RGB
+        self.__system = None
         self.__gradient = library.generate_gradient(
             c_uint8(lower_limit[0]),
             c_uint8(lower_limit[1]),
@@ -31,6 +31,7 @@ class Gradient:
             c_uint8(upper_limit[2]),
             c_bool(inverted)
         )
+        self.system = System.RGB
 
     @property
     def ctype(self) -> int:

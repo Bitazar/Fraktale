@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>Fraktale</class>
+ <widget class="QMainWindow" name="Fraktale">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,18 +11,37 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Fraktale</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QComboBox" name="comboBox">
+      <item>
+       <property name="text">
+        <string>Zbiór Mandelbrota</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Zbiór Julii</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Paproć Barnsleya</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="2">
      <widget class="QPushButton" name="generatingButton">
       <property name="text">
        <string>Generuj</string>
       </property>
      </widget>
     </item>
-    <item>
+    <item row="2" column="0" colspan="2">
      <widget class="QLabel" name="fractalWindow">
       <property name="text">
        <string/>
@@ -32,7 +51,7 @@
       </property>
      </widget>
     </item>
-    <item>
+    <item row="0" column="1">
      <widget class="QPushButton" name="pushButton">
       <property name="text">
        <string>Opcje</string>
