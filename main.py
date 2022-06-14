@@ -5,8 +5,9 @@ from execution_widget import Execution
 import cv2
 
 from gradient import Gradient
+from icon import generate_icon
 from julia_widget import JuliaWidget
-from mainWindows import Ui_Fraktale
+from ui import Ui_Fraktale
 from mandelbrot_widget import MandelbrotWidget
 from parameter_dialog import ParameterDialog
 from julia import Julia
@@ -39,6 +40,7 @@ class MainWindow(QMainWindow):
         self.__ui.saveButton.clicked.connect(self.__saveToFile)
         self.__ui.fractalWindow.setFractal(self.__fractal)
         self.__ui.fractalWindow.attachHandle(self.__generate_fractal)
+        self.setWindowIcon(generate_icon())
 
     def __saveToFile(self) -> QWidget:
         if self.__image is None:
