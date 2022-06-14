@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QApplication, QWidget, QMainWindow
 from PySide6.QtGui import QImage, QPixmap
 
 from gradient import Gradient
+from julia_widget import JuliaWidget
 
 from mainWindows import Ui_Fraktale
 from mandelbrot_widget import MandelbrotWidget
@@ -28,13 +29,15 @@ class MainWindow(QMainWindow):
         self.__ui.setupUi(self)
         self.__ui.comboBox.currentIndexChanged.connect(self.__change_fractal)
         self.__fractal = FRACTALS[0]
-        self.__gradient = Gradient([0, 0, 0], [127, 127, 127])
+        self.__gradient = Gradient([0, 0, 0], [0, 255, 0])
         self.__ui.generatingButton.clicked.connect(self.__generate_fractal)
         self.__ui.pushButton.clicked.connect(self.__change_parameters)
 
     def __getWidget(self) -> QWidget:
         if isinstance(self.__fractal, Mandelbrot):
             return MandelbrotWidget(self.__fractal)
+        elif isinstance(self.__fractal, Julia):
+            return JuliaWidget(self.__fractal)
         return None
 
     def __change_fractal(self, index: int) -> None:

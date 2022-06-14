@@ -98,6 +98,22 @@ extern "C" void generate_julia_parallel(
     julias.get(ptr)->generateParallel(memory, width, height, gradients.get(gradPtr), threads);
 }
 
+extern "C" void set_julia_max_iter(uint32_t ptr, uint32_t maxIterations) {
+    julias.get(ptr)->setMaxIterations(maxIterations);
+}
+
+extern "C" void set_julia_start(uint32_t ptr, double startReal, double startImag) {
+    julias.get(ptr)->setStart({startReal, startImag});
+}
+
+extern "C" void set_julia_end(uint32_t ptr, double endReal, double endImag) {
+    julias.get(ptr)->setEnd({endReal, endImag});
+}
+
+extern "C" void set_julia_constant(uint32_t ptr, double constReal, double constImag) {
+    julias.get(ptr)->setConstant({constReal, constImag});
+}
+
 extern "C" uint32_t create_barnsley_fern(
     uint32_t points)
 {

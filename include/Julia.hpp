@@ -21,6 +21,18 @@ namespace fractal {
 
         int operator() (Complex const& step) const noexcept;
 
+        void setMaxIterations(uint32_t maxIterations) noexcept
+            { this->maxIterations = maxIterations; }
+
+        void setStart(Complex const& start) noexcept
+            { this->start = start; }
+
+        void setEnd(Complex const& end) noexcept
+            { this->end = end; }
+
+        void setConstant(Complex const& constant) noexcept
+            { this->constant = constant; }
+
         void generate(
             uint8_t* memory,
             uint32_t width,

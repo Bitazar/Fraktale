@@ -5,19 +5,21 @@ from PySide6.QtGui import QIntValidator, QDoubleValidator
 from functools import wraps
 from typing import Callable
 
-from mandelbrot import Mandelbrot
+from julia import Julia
 
-class MandelbrotWidget(QWidget):
-    def __init__(self, fractal: Mandelbrot) -> None:
+class JuliaWidget(QWidget):
+    def __init__(self, fractal: Julia) -> None:
         super().__init__()
         self.__fractal = fractal
         self.__start = [fractal.start]
         self.__end = [fractal.end]
+        self.__constant = [fractal.constant]
         self.__iterations = self.__fractal.maxIterations
         self.__layout = QVBoxLayout(self)
-        self.__layout.addWidget(QLabel('Parametry zbioru Mandelbrota'))
+        self.__layout.addWidget(QLabel('Parametry zbioru Julia'))
         self.__createComplex('Początek', self.__start)
         self.__createComplex('Koniec', self.__end)
+        self.__createComplex('Stała', self.__constant)
         self.__createMaxIter()
 
     def __createComplex(self, title: str, value: complex) -> None:
@@ -38,14 +40,17 @@ class MandelbrotWidget(QWidget):
         self.__layout.addWidget(widget)
 
     def __reset(self) -> None:
-        self.__start[0] = complex(-2, -1)
+        self.__start[0] = complex(-1, -1)
         self.__end[0] = complex(1, 1)
+        self.__constant[0] = complex(0.285, 0.01)
         self.__iterations = 80
         self.__layout.itemAt(1).widget().layout().itemAt(1).widget().setText(str(self.__start[0].real))
         self.__layout.itemAt(1).widget().layout().itemAt(3).widget().setText(str(self.__start[0].imag))
         self.__layout.itemAt(2).widget().layout().itemAt(1).widget().setText(str(self.__end[0].real))
         self.__layout.itemAt(2).widget().layout().itemAt(3).widget().setText(str(self.__end[0].imag))
-        self.__layout.itemAt(3).widget().layout().itemAt(1).widget().setText(str(self.__iterations))
+        self.__layout.itemAt(3).widget().layout().itemAt(1).widget().setText(str(self.__constant[0].real))
+        self.__layout.itemAt(3).widget().layout().itemAt(3).widget().setText(str(self.__constant[0].imag))
+        self.__layout.itemAt(4).widget().layout().itemAt(1).widget().setText(str(self.__iterations))
 
     def __createMaxIter(self) -> None:
         def setIterations() -> None:
@@ -80,4 +85,5 @@ class MandelbrotWidget(QWidget):
     def activate(self) -> None:
         self.__fractal.start = self.__start[0]
         self.__fractal.end = self.__end[0]
+        self.__fractal.constant = self.__constant[0]
         self.__fractal.maxIterations = self.__iterations
