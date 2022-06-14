@@ -37,6 +37,8 @@ class MainWindow(QMainWindow):
         self.__ui.generatingButton.clicked.connect(self.__generate_fractal)
         self.__ui.pushButton.clicked.connect(self.__change_parameters)
         self.__ui.saveButton.clicked.connect(self.__saveToFile)
+        self.__ui.fractalWindow.setFractal(self.__fractal)
+        self.__ui.fractalWindow.attachHandle(self.__generate_fractal)
 
     def __saveToFile(self) -> QWidget:
         if self.__image is None:
@@ -58,6 +60,7 @@ class MainWindow(QMainWindow):
 
     def __change_fractal(self, index: int) -> None:
         self.__fractal = FRACTALS[index]
+        self.__ui.fractalWindow.setFractal(self.__fractal)
 
     def __change_parameters(self) -> None:
         dialog = ParameterDialog(

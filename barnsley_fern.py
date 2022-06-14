@@ -39,6 +39,10 @@ class BarnsleyFern:
         return image
 
     @property
+    def spaceious(self) -> bool:
+        return False
+
+    @property
     def points(self) -> int:
         return self.__points
 

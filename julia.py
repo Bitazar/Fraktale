@@ -47,6 +47,10 @@ class Julia:
         return image
 
     @property
+    def spaceious(self) -> bool:
+        return True
+
+    @property
     def maxIterations(self) -> int:
         return self.__maxIterations
 

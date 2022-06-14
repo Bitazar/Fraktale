@@ -19,6 +19,9 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QLabel,
     QMainWindow, QPushButton, QSizePolicy, QStatusBar,
     QWidget)
 
+from viewable_label import ViewableLabel
+
+
 class Ui_Fraktale(object):
     def setupUi(self, Fraktale):
         if not Fraktale.objectName():
@@ -33,7 +36,7 @@ class Ui_Fraktale(object):
 
         self.gridLayout.addWidget(self.pushButton, 0, 1, 1, 1)
 
-        self.fractalWindow = QLabel(self.centralwidget)
+        self.fractalWindow = ViewableLabel(self.centralwidget)
         self.fractalWindow.setObjectName(u"fractalWindow")
         self.fractalWindow.setAlignment(Qt.AlignCenter)
 
