@@ -2,10 +2,12 @@
 #include "../include/Mandelbrot.hpp"
 #include "../include/Gradient.hpp"
 #include "../include/Julia.hpp"
+#include "../include/BarnsleyFern.hpp"
 
 fractal::Exchanger<fractal::Mandelbrot*>        mandelbrots;
 fractal::Exchanger<fractal::Gradient*>          gradients;
 fractal::Exchanger<fractal::Julia*>             julias;
+fractal::Exchanger<fractal::BarnsleyFern*>      ferns;
 
 extern "C" uint32_t create_mandelbrot(
     uint32_t maxIterations, double startReal, double startImag,
@@ -82,4 +84,23 @@ extern "C" void generate_julia_parallel(
     int32_t threads)
 {
     julias.get(ptr)->generateParallel(memory, width, height, gradients.get(gradPtr), threads);
+}
+
+extern "C" uint32_t create_barnsley_fern(
+    uint32_t points)
+{
+    return ferns.assign(new fractal::BarnsleyFern{points});
+}
+
+extern "C" void generate_barnsley_fern(
+    uint32_t ptr, uint8_t* memory, uint32_t width, uint32_t height, uint32_t gradPtr)
+{
+    ferns.get(ptr)->generate(memory, width, height, gradients.get(gradPtr));
+}
+
+extern "C" void generate_barnsley_fern_parallel(
+    uint32_t ptr, uint8_t* memory, uint32_t width, uint32_t height, uint32_t gradPtr,
+    int32_t threads)
+{
+    ferns.get(ptr)->generateParallel(memory, width, height, gradients.get(gradPtr), threads);
 }

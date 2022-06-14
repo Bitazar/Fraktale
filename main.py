@@ -7,6 +7,7 @@ from parameter_dialog import ParameterDialog
 import sys
 
 from julia import Julia
+from barnsley_fern import BarnsleyFern
 from mandelbrot import Mandelbrot
 
 
@@ -20,7 +21,7 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.__ui = Ui_MainWindow()
         self.__ui.setupUi(self)
-        self.__fractal = Julia()
+        self.__fractal = BarnsleyFern()
         self.__ui.generatingButton.clicked.connect(self.__generate_fractal)
         self.__ui.pushButton.clicked.connect(self.__change_parameters)
 
