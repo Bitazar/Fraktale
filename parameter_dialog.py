@@ -11,6 +11,7 @@ from sliders_widget import SlidersWidget
 from pallete_widget import PalleteWidget
 from size_widget import SizeWidget
 from gradient import Gradient, System
+from execution_widget import Execution, ExecutionWidget
 
 
 class BoundSignals(QObject):
@@ -37,7 +38,7 @@ PALLETES = {
 
 
 class ParameterDialog(QDialog):
-    def __init__(self, gradient: Gradient, dimensions: Tuple[int], widget: QWidget, parent: Optional[QWidget] = None) -> None:
+    def __init__(self, gradient: Gradient, dimensions: Tuple[int], widget: QWidget, execution: Execution, parent: Optional[QWidget] = None) -> None:
         super().__init__(parent)
         self.__widget = widget
         self.__system, self.__inverted = gradient.system, gradient.inverted
@@ -52,17 +53,22 @@ class ParameterDialog(QDialog):
         self.__signalsCreation()
         self.__innerLayoutCreation(gradient)
         self.__layout.addWidget(self.__innerWidget)
-        self.__windowBoxCreation(dimensions)
+        self.__windowBoxCreation(dimensions, execution)
         if widget:
             self.__layout.addWidget(widget)
         self.__layout.addWidget(self.buttonBox)
         self.setLayout(self.__layout)
 
-    def __windowBoxCreation(self, dimensions: Tuple[int]) -> None:
+    def __windowBoxCreation(self, dimensions: Tuple[int], execution: Execution) -> None:
+        widget = QWidget()
+        layout = QHBoxLayout(widget)
         self.__sizeWidnow = SizeWidget(dimensions, self.__signals)
+        self.__execWindow = ExecutionWidget(execution)
         self.__signals.changeHeight.connect(self.__changeHeight)
         self.__signals.changeWidth.connect(self.__changeWidth)
-        self.__layout.addWidget(self.__sizeWidnow)
+        layout.addWidget(self.__sizeWidnow)
+        layout.addWidget(self.__execWindow)
+        self.__layout.addWidget(widget)
 
     def __signalsCreation(self) -> None:
         self.__signals = BoundSignals()
@@ -123,3 +129,4 @@ class ParameterDialog(QDialog):
     def activateWidget(self) -> None:
         if self.__widget:
             self.__widget.activate()
+        self.__execWindow.activate()

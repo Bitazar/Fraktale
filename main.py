@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QApplication, QWidget, QMainWindow
 from PySide6.QtGui import QImage, QPixmap
 from barnsley_fern_widget import BarnsleyFernWidget
+from execution_widget import Execution
 
 from gradient import Gradient
 from julia_widget import JuliaWidget
@@ -25,6 +26,7 @@ FRACTALS = [
 class MainWindow(QMainWindow):
     def __init__(self, parent: QWidget = None) -> None:
         super().__init__(parent)
+        self.__execution = Execution(Execution.Modes.Parallel, 8)
         self.__dimensions = [600, 400]
         self.__ui = Ui_Fraktale()
         self.__ui.setupUi(self)
@@ -51,6 +53,7 @@ class MainWindow(QMainWindow):
             self.__gradient,
             self.__dimensions,
             self.__getWidget(),
+            self.__execution,
             self)
         if dialog.exec():
             self.__gradient.lower_limit = dialog.lowerLimit
@@ -62,7 +65,10 @@ class MainWindow(QMainWindow):
 
     def __generate_fractal(self) -> None:
         width, height = self.__dimensions
-        image = self.__fractal.generate(*self.__dimensions, self.__gradient)
+        if self.__execution.mode == Execution.Modes.Sequenced:
+            image = self.__fractal.generate(*self.__dimensions, self.__gradient)
+        else:
+            image = self.__fractal.generate_parallel(*self.__dimensions, self.__execution.threads, self.__gradient)
         image = QImage(image.data, width, height, 3 * width, QImage.Format_RGB888)
         self.__ui.fractalWindow.setPixmap(QPixmap(image))
 

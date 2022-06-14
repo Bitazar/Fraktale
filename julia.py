@@ -1,3 +1,4 @@
+from concurrent.futures import thread
 from ctypes import c_void_p, c_double
 
 from gradient import Gradient
@@ -26,9 +27,23 @@ class Julia:
         if gradient is None:
             gradient = Gradient((0, 127, 127), (255, 255, 255), True)
         image = np.zeros((height, width, 3), dtype=np.uint8)
-        library.generate_julia_parallel(self.__obj,
+        library.generate_julia(self.__obj,
             image.ctypes.data_as(c_void_p),
             width, height, gradient.ctype, 8)
+        return image
+
+    def generate_parallel(
+            self,
+            width: int,
+            height: int,
+            threads: int,
+            gradient: Gradient = None) -> np.ndarray:
+        if gradient is None:
+            gradient = Gradient((0, 127, 127), (255, 255, 255), True)
+        image = np.zeros((height, width, 3), dtype=np.uint8)
+        library.generate_julia_parallel(self.__obj,
+            image.ctypes.data_as(c_void_p),
+            width, height, gradient.ctype, threads)
         return image
 
     @property

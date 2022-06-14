@@ -24,9 +24,23 @@ class Mandelbrot:
         if gradient is None:
             gradient = Gradient((0, 0, 0), (255, 255, 255))
         image = np.zeros((height, width, 3), dtype=np.uint8)
-        library.generate_mandelbrot_parallel(self.__obj,
+        library.generate_mandelbrot(self.__obj,
             image.ctypes.data_as(c_void_p),
             width, height, gradient.ctype, 8)
+        return image
+
+    def generate_parallel(
+            self,
+            width: int,
+            height: int,
+            threads: int,
+            gradient: Gradient = None) -> np.ndarray:
+        if gradient is None:
+            gradient = Gradient((0, 0, 0), (255, 255, 255))
+        image = np.zeros((height, width, 3), dtype=np.uint8)
+        library.generate_mandelbrot_parallel(self.__obj,
+            image.ctypes.data_as(c_void_p),
+            width, height, gradient.ctype, threads)
         return image
 
     @property

@@ -19,9 +19,23 @@ class BarnsleyFern:
         if gradient is None:
             gradient = Gradient((0, 0, 0), (255, 255, 255))
         image = np.zeros((height, width, 3), dtype=np.uint8)
+        library.generate_barnsley(self.__obj,
+            image.ctypes.data_as(c_void_p),
+            width, height, gradient.ctype)
+        return image
+
+    def generate_parallel(
+            self,
+            width: int,
+            height: int,
+            threads: int,
+            gradient: Gradient = None) -> np.ndarray:
+        if gradient is None:
+            gradient = Gradient((0, 0, 0), (255, 255, 255))
+        image = np.zeros((height, width, 3), dtype=np.uint8)
         library.generate_barnsley_fern(self.__obj,
             image.ctypes.data_as(c_void_p),
-            width, height, gradient.ctype, 8)
+            width, height, gradient.ctype, threads)
         return image
 
     @property
