@@ -23,3 +23,14 @@ class BarnsleyFern:
             image.ctypes.data_as(c_void_p),
             width, height, gradient.ctype, 8)
         return image
+
+    @property
+    def points(self) -> int:
+        return self.__points
+
+    @points.setter
+    def points(self, value: int) -> None:
+        if value == self.__points:
+            return None
+        self.__points = value
+        library.set_barnsley_fern_points(self.__obj, value)

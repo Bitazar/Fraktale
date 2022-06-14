@@ -22,6 +22,9 @@ namespace fractal {
             Gradient* gradient,
             int32_t threads) const;
 
+        void setPoints(uint32_t points) noexcept
+            { this->points = points; }
+
     private:
         uint32_t                                    points;
 

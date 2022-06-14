@@ -132,3 +132,7 @@ extern "C" void generate_barnsley_fern_parallel(
 {
     ferns.get(ptr)->generateParallel(memory, width, height, gradients.get(gradPtr), threads);
 }
+
+extern "C" void set_barnsley_fern_points(uint32_t ptr, uint32_t points) {
+    ferns.get(ptr)->setPoints(points);
+}

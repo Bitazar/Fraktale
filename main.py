@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QApplication, QWidget, QMainWindow
 from PySide6.QtGui import QImage, QPixmap
+from barnsley_fern_widget import BarnsleyFernWidget
 
 from gradient import Gradient
 from julia_widget import JuliaWidget
@@ -38,6 +39,8 @@ class MainWindow(QMainWindow):
             return MandelbrotWidget(self.__fractal)
         elif isinstance(self.__fractal, Julia):
             return JuliaWidget(self.__fractal)
+        elif isinstance(self.__fractal, BarnsleyFern):
+            return BarnsleyFernWidget(self.__fractal)
         return None
 
     def __change_fractal(self, index: int) -> None:
