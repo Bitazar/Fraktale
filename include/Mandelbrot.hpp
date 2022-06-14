@@ -28,6 +28,15 @@ namespace fractal {
             uint32_t height,
             Gradient* gradient,
             int32_t threads) const;
+
+        void setMaxIterations(uint32_t maxIterations) noexcept
+            { this->maxIterations = maxIterations; }
+
+        void setStart(Complex const& start) noexcept
+            { this->start = start; }
+
+        void setEnd(Complex const& end) noexcept
+            { this->end = end; }
     private:
         Complex                                     start;
         Complex                                     end;

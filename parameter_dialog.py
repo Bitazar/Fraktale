@@ -35,9 +35,11 @@ PALLETES = {
     'YUV': System.YUV
 }
 
+
 class ParameterDialog(QDialog):
-    def __init__(self, gradient: Gradient, dimensions: Tuple[int], parent: Optional[QWidget] = None) -> None:
+    def __init__(self, gradient: Gradient, dimensions: Tuple[int], widget: QWidget, parent: Optional[QWidget] = None) -> None:
         super().__init__(parent)
+        self.__widget = widget
         self.__system, self.__inverted = gradient.system, gradient.inverted
         self.__lowerLimit, self.__upperLimit = gradient.lower_limit, gradient.upper_limit
         self.__dimensions = dimensions
@@ -51,6 +53,8 @@ class ParameterDialog(QDialog):
         self.__innerLayoutCreation(gradient)
         self.__layout.addWidget(self.__innerWidget)
         self.__windowBoxCreation(dimensions)
+        if widget:
+            self.__layout.addWidget(widget)
         self.__layout.addWidget(self.buttonBox)
         self.setLayout(self.__layout)
 
@@ -116,3 +120,6 @@ class ParameterDialog(QDialog):
     def dimensions(self) -> Tuple[int]:
         return self.__dimensions
 
+    def activateWidget(self) -> None:
+        if self.__widget:
+            self.__widget.activate()

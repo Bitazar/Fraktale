@@ -31,6 +31,18 @@ extern "C" void generate_mandelbrot_parallel(
     mandelbrots.get(ptr)->generateParallel(memory, width, height, gradients.get(gradPtr), threads);
 }
 
+extern "C" void set_mandelbrot_max_iter(uint32_t ptr, uint32_t maxIterations) {
+    mandelbrots.get(ptr)->setMaxIterations(maxIterations);
+}
+
+extern "C" void set_mandelbrot_start(uint32_t ptr, double startReal, double startImag) {
+    mandelbrots.get(ptr)->setStart({startReal, startImag});
+}
+
+extern "C" void set_mandelbrot_end(uint32_t ptr, double endReal, double endImag) {
+    mandelbrots.get(ptr)->setEnd({endReal, endImag});
+}
+
 extern "C" uint32_t generate_gradient(
     uint8_t lower_red, uint8_t lower_green, uint8_t lower_blue,
     uint8_t upper_red, uint8_t upper_green, uint8_t upper_blue,
