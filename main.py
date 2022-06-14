@@ -12,10 +12,6 @@ from julia import Julia
 from barnsley_fern import BarnsleyFern
 from mandelbrot import Mandelbrot
 
-# Image size (pixels)
-WIDTH = 600
-HEIGHT = 400
-
 FRACTALS = [
     Mandelbrot(),
     Julia(),
@@ -26,6 +22,7 @@ FRACTALS = [
 class MainWindow(QMainWindow):
     def __init__(self, parent: QWidget = None) -> None:
         super().__init__(parent)
+        self.__dimensions = [600, 400]
         self.__ui = Ui_Fraktale()
         self.__ui.setupUi(self)
         self.__ui.comboBox.currentIndexChanged.connect(self.__change_fractal)
@@ -38,16 +35,18 @@ class MainWindow(QMainWindow):
         self.__fractal = FRACTALS[index]
 
     def __change_parameters(self) -> None:
-        dialog = ParameterDialog(self.__gradient, self)
+        dialog = ParameterDialog(self.__gradient, self.__dimensions, self)
         if dialog.exec():
             self.__gradient.lower_limit = dialog.lowerLimit
             self.__gradient.upper_limit = dialog.upperLimit
             self.__gradient.system = dialog.system
             self.__gradient.inverted = dialog.inverted
+            self.__dimensions = dialog.dimensions
 
     def __generate_fractal(self) -> None:
-        image = self.__fractal.generate(WIDTH, HEIGHT, self.__gradient)
-        image = QImage(image.data, WIDTH, HEIGHT, 3 * WIDTH, QImage.Format_RGB888)
+        width, height = self.__dimensions
+        image = self.__fractal.generate(*self.__dimensions, self.__gradient)
+        image = QImage(image.data, width, height, 3 * width, QImage.Format_RGB888)
         self.__ui.fractalWindow.setPixmap(QPixmap(image))
 
 

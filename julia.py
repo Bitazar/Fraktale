@@ -1,6 +1,6 @@
 from ctypes import c_void_p, c_double
 
-from gradient import Gradient, System
+from gradient import Gradient
 from lib import library
 
 import numpy as np
@@ -24,7 +24,6 @@ class Julia:
             gradient: Gradient = None) -> np.ndarray:
         if gradient is None:
             gradient = Gradient((0, 127, 127), (255, 255, 255), True)
-        gradient.change_system(System.HSV)
         image = np.zeros((height, width, 3), dtype=np.uint8)
         library.generate_julia_parallel(self.__obj,
             image.ctypes.data_as(c_void_p),

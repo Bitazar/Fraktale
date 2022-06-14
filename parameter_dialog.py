@@ -7,8 +7,9 @@ from PySide6.QtWidgets import (
 
 from PySide6.QtCore import Signal, QObject
 
-from sliders_widget import *
+from sliders_widget import SlidersWidget
 from pallete_widget import PalleteWidget
+from size_widget import SizeWidget
 from gradient import Gradient, System
 
 
@@ -17,6 +18,8 @@ class BoundSignals(QObject):
     upperBound: Signal = Signal(object)
     pallete: Signal = Signal(object)
     invert: Signal = Signal(object)
+    changeWidth: Signal = Signal(object)
+    changeHeight: Signal = Signal(object)
 
 LABELS = {
     System.RGB: ['Czerwony', 'Zielony', 'Niebieski'],
@@ -33,21 +36,29 @@ PALLETES = {
 }
 
 class ParameterDialog(QDialog):
-    def __init__(self, gradient: Gradient, parent: Optional[QWidget] = None) -> None:
+    def __init__(self, gradient: Gradient, dimensions: Tuple[int], parent: Optional[QWidget] = None) -> None:
         super().__init__(parent)
         self.__system, self.__inverted = gradient.system, gradient.inverted
         self.__lowerLimit, self.__upperLimit = gradient.lower_limit, gradient.upper_limit
+        self.__dimensions = dimensions
         self.setWindowTitle("Opcje")
         buttons = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
         self.buttonBox = QDialogButtonBox(buttons)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
-        self.layout = QVBoxLayout()
+        self.__layout = QVBoxLayout()
         self.__signalsCreation()
         self.__innerLayoutCreation(gradient)
-        self.layout.addWidget(self.__innerWidget)
-        self.layout.addWidget(self.buttonBox)
-        self.setLayout(self.layout)
+        self.__layout.addWidget(self.__innerWidget)
+        self.__windowBoxCreation(dimensions)
+        self.__layout.addWidget(self.buttonBox)
+        self.setLayout(self.__layout)
+
+    def __windowBoxCreation(self, dimensions: Tuple[int]) -> None:
+        self.__sizeWidnow = SizeWidget(dimensions, self.__signals)
+        self.__signals.changeHeight.connect(self.__changeHeight)
+        self.__signals.changeWidth.connect(self.__changeWidth)
+        self.__layout.addWidget(self.__sizeWidnow)
 
     def __signalsCreation(self) -> None:
         self.__signals = BoundSignals()
@@ -79,6 +90,12 @@ class ParameterDialog(QDialog):
     def __invert(self, direction: bool) -> None:
         self.__inverted = direction
 
+    def __changeWidth(self, width: int) -> None:
+        self.__dimensions = (width, self.__dimensions[1])
+
+    def __changeHeight(self, height: int) -> None:
+        self.__dimensions = (self.__dimensions[0], height)
+
     @property
     def lowerLimit(self) -> Tuple[int]:
         return self.__lowerLimit
@@ -94,4 +111,8 @@ class ParameterDialog(QDialog):
     @property
     def inverted(self) -> bool:
         return self.__inverted
+
+    @property
+    def dimensions(self) -> Tuple[int]:
+        return self.__dimensions
 

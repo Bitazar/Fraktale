@@ -12,8 +12,8 @@ Color = Tuple[int, int, int]
 class System(Enum):
     RGB = 0x01
     HSV = 0x02
-    YCbCr = 0x03
-    YUV = 0x04
+    YCbCr = 0x04
+    YUV = 0x08
 
 
 class Gradient:

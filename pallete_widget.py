@@ -1,8 +1,7 @@
-from tkinter import Button
 from typing import Dict, Callable, TypeVar
 
 from PySide6.QtWidgets import QWidget, QButtonGroup, QRadioButton, QVBoxLayout, QLabel
-from PySide6.QtCore import Slot, Signal
+from PySide6.QtCore import Slot
 
 from functools import wraps
 

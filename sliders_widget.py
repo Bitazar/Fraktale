@@ -1,4 +1,3 @@
-from cv2 import line
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QSlider, QLineEdit
 from PySide6.QtCore import Slot, Qt, Signal
 from PySide6.QtGui import QIntValidator
