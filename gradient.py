@@ -47,7 +47,9 @@ class Gradient:
 
     @lower_limit.setter
     def lower_limit(self, lower_limit: Color) -> None:
-        self.__lower_limit = lower_limit
+        if lower_limit == tuple(self.__lower_limit):
+            return None
+        self.__lower_limit = tuple(lower_limit)
         library.gradient_change_lower_limit(
             self.ctype,
             c_uint8(lower_limit[0]),
@@ -55,9 +57,11 @@ class Gradient:
             c_uint8(lower_limit[2]),
         )
 
-    @lower_limit.setter
-    def lower_limit(self, upper_limit: Color) -> None:
-        self.__upper_limit = upper_limit
+    @upper_limit.setter
+    def upper_limit(self, upper_limit: Color) -> None:
+        if upper_limit == tuple(self.__upper_limit):
+            return None
+        self.__upper_limit = tuple(upper_limit)
         library.gradient_change_upper_limit(
             self.ctype,
             c_uint8(upper_limit[0]),
