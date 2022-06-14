@@ -83,7 +83,6 @@ class Gradient:
     @system.setter
     def system(self, new_system: System) -> None:
         if self.__system == new_system:
-            print(new_system, self.__system)
             return None
         self.__system = new_system
         library.change_gradient_system(self.ctype, c_uint8(self.__system.value))

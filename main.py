@@ -12,7 +12,6 @@ from julia import Julia
 from barnsley_fern import BarnsleyFern
 from mandelbrot import Mandelbrot
 
-
 # Image size (pixels)
 WIDTH = 600
 HEIGHT = 400
