@@ -28,6 +28,17 @@ class Ui_Fraktale(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
+        self.pushButton = QPushButton(self.centralwidget)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.gridLayout.addWidget(self.pushButton, 0, 1, 1, 1)
+
+        self.fractalWindow = QLabel(self.centralwidget)
+        self.fractalWindow.setObjectName(u"fractalWindow")
+        self.fractalWindow.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.fractalWindow, 2, 0, 1, 2)
+
         self.comboBox = QComboBox(self.centralwidget)
         self.comboBox.addItem("")
         self.comboBox.addItem("")
@@ -39,18 +50,12 @@ class Ui_Fraktale(object):
         self.generatingButton = QPushButton(self.centralwidget)
         self.generatingButton.setObjectName(u"generatingButton")
 
-        self.gridLayout.addWidget(self.generatingButton, 3, 0, 1, 2)
+        self.gridLayout.addWidget(self.generatingButton, 3, 0, 1, 1)
 
-        self.fractalWindow = QLabel(self.centralwidget)
-        self.fractalWindow.setObjectName(u"fractalWindow")
-        self.fractalWindow.setAlignment(Qt.AlignCenter)
+        self.saveButton = QPushButton(self.centralwidget)
+        self.saveButton.setObjectName(u"saveButton")
 
-        self.gridLayout.addWidget(self.fractalWindow, 2, 0, 1, 2)
-
-        self.pushButton = QPushButton(self.centralwidget)
-        self.pushButton.setObjectName(u"pushButton")
-
-        self.gridLayout.addWidget(self.pushButton, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.saveButton, 3, 1, 1, 1)
 
         Fraktale.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(Fraktale)
@@ -64,12 +69,13 @@ class Ui_Fraktale(object):
 
     def retranslateUi(self, Fraktale):
         Fraktale.setWindowTitle(QCoreApplication.translate("Fraktale", u"Fraktale", None))
+        self.pushButton.setText(QCoreApplication.translate("Fraktale", u"Opcje", None))
+        self.fractalWindow.setText("")
         self.comboBox.setItemText(0, QCoreApplication.translate("Fraktale", u"Zbi\u00f3r Mandelbrota", None))
         self.comboBox.setItemText(1, QCoreApplication.translate("Fraktale", u"Zbi\u00f3r Julii", None))
         self.comboBox.setItemText(2, QCoreApplication.translate("Fraktale", u"Papro\u0107 Barnsleya", None))
 
         self.generatingButton.setText(QCoreApplication.translate("Fraktale", u"Generuj", None))
-        self.fractalWindow.setText("")
-        self.pushButton.setText(QCoreApplication.translate("Fraktale", u"Opcje", None))
+        self.saveButton.setText(QCoreApplication.translate("Fraktale", u"Zapisz do pliku", None))
     # retranslateUi
 

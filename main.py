@@ -1,20 +1,20 @@
-from PySide6.QtWidgets import QApplication, QWidget, QMainWindow
+from PySide6.QtWidgets import QApplication, QWidget, QMainWindow, QFileDialog
 from PySide6.QtGui import QImage, QPixmap
 from barnsley_fern_widget import BarnsleyFernWidget
 from execution_widget import Execution
+import cv2
 
 from gradient import Gradient
 from julia_widget import JuliaWidget
-
 from mainWindows import Ui_Fraktale
 from mandelbrot_widget import MandelbrotWidget
 from parameter_dialog import ParameterDialog
-
-import sys
-
 from julia import Julia
 from barnsley_fern import BarnsleyFern
 from mandelbrot import Mandelbrot
+
+import sys
+
 
 FRACTALS = [
     Mandelbrot(),
@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.__execution = Execution(Execution.Modes.Parallel, 8)
         self.__dimensions = [600, 400]
+        self.__image = None
         self.__ui = Ui_Fraktale()
         self.__ui.setupUi(self)
         self.__ui.comboBox.currentIndexChanged.connect(self.__change_fractal)
@@ -35,6 +36,16 @@ class MainWindow(QMainWindow):
         self.__gradient = Gradient([0, 0, 0], [0, 255, 0])
         self.__ui.generatingButton.clicked.connect(self.__generate_fractal)
         self.__ui.pushButton.clicked.connect(self.__change_parameters)
+        self.__ui.saveButton.clicked.connect(self.__saveToFile)
+
+    def __saveToFile(self) -> QWidget:
+        if self.__image is None:
+            return None
+        filename, _ = QFileDialog.getSaveFileName(
+            QApplication.activeWindow())
+        if filename.split('.')[-1].lower() not in ['jpg', 'jpeg', 'png']:
+            return None
+        cv2.imwrite(filename, cv2.cvtColor(self.__image, cv2.COLOR_RGB2BGR))
 
     def __getWidget(self) -> QWidget:
         if isinstance(self.__fractal, Mandelbrot):
@@ -69,6 +80,7 @@ class MainWindow(QMainWindow):
             image = self.__fractal.generate(*self.__dimensions, self.__gradient)
         else:
             image = self.__fractal.generate_parallel(*self.__dimensions, self.__execution.threads, self.__gradient)
+        self.__image = image
         image = QImage(image.data, width, height, 3 * width, QImage.Format_RGB888)
         self.__ui.fractalWindow.setPixmap(QPixmap(image))
 
