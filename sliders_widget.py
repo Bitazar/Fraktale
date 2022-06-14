@@ -4,8 +4,6 @@ from PySide6.QtCore import Slot, Qt, Signal
 from functools import wraps
 from typing import List, Optional, Callable, Tuple
 
-from numpy import array, uint8
-
 
 class SlidersWidget(QWidget):
 
@@ -28,17 +26,21 @@ class SlidersWidget(QWidget):
         self._setSliders(labels)
         self._layout.addWidget(self._sliderWidget)
 
+    def __createSlider(self, index: int) -> None:
+        slider = QSlider()
+        slider.setTickPosition(QSlider.TicksBothSides)
+        slider.setTickInterval(16)
+        slider.setMinimum(0)
+        slider.setMaximum(255)
+        slider.setSliderPosition(self._values[index])
+        slider.valueChanged.connect(self.sliderChangeWrapper(index))
+        return slider
+
     def _setSliders(self, labels: List[str]) -> None:
         self._functions = []
         for i, label in enumerate(labels):
             sliderLayout = QVBoxLayout()
-            slider = QSlider()
-            slider.setTickPosition(QSlider.TicksBothSides)
-            slider.setTickInterval(16)
-            slider.setMinimum(0)
-            slider.setMaximum(255)
-            slider.setSliderPosition(self._values[i])
-            slider.valueChanged.connect(self.sliderChangeWrapper(i))
+            slider = self.__createSlider(i)
             self._sliders.append(slider)
             label = QLabel(label)
             label.setAlignment(Qt.AlignHCenter)
@@ -66,4 +68,4 @@ class SlidersWidget(QWidget):
 
     def changeLabels(self, labels: str) -> None:
         for i, value in enumerate(labels):
-            self._sliderLayout.itemAt(i).itemAt(2).widget().setText(value)
+            self._sliderLayout.itemAt(i).itemAt(0).widget().setText(value)

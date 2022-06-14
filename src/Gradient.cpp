@@ -5,13 +5,13 @@ namespace fractal {
     Gradient::Pixel Gradient::operator() (uint8_t value) const {
         switch (pallete) {
             case Palletes::RGB:
-                return rgb(value);
+                return invert(rgb(value));
             case Palletes::HSV:
-                return hsv(value);
+                return invert(hsv(value));
             case Palletes::YCbCr:
-                return ycbcr(value);
+                return invert(ycbcr(value));
         }
-        return yuv(value);
+        return invert(yuv(value));
     }
 
     Gradient::Pixel Gradient::rgb(uint8_t value) const noexcept {
@@ -86,6 +86,15 @@ namespace fractal {
                 pallete = Palletes::YUV;
                 return;
         }
+    }
+
+    Gradient::Pixel Gradient::invert(Pixel const& pixel) const noexcept {
+        auto const& [r, g, b] = pixel;
+        return {
+            inverted ? 255 - r : r,
+            inverted ? 255 - g : g,
+            inverted ? 255 - b : b
+        };
     }
 
 }

@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.__ui = Ui_MainWindow()
         self.__ui.setupUi(self)
-        self.__fractal = Julia()
+        self.__fractal = Mandelbrot()
         self.__gradient = Gradient([0, 0, 0], [255, 255, 255])
         self.__ui.generatingButton.clicked.connect(self.__generate_fractal)
         self.__ui.pushButton.clicked.connect(self.__change_parameters)
@@ -32,6 +32,8 @@ class MainWindow(QMainWindow):
         if dialog.exec():
             self.__gradient.lower_limit = dialog.lowerLimit
             self.__gradient.upper_limit = dialog.upperLimit
+            self.__gradient.system = dialog.system
+            self.__gradient.inverted = dialog.inverted
 
     def __generate_fractal(self) -> None:
         image = self.__fractal.generate(WIDTH, HEIGHT, self.__gradient)

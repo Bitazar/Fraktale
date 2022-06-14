@@ -46,7 +46,7 @@ namespace fractal {
             int16_t scaled = (int16_t) std::get<Axis>(lowerLimit) + range * value / 255;
             uint8_t result = scaled < 256 ? (
                 scaled >= 0 ? static_cast<uint8_t>(scaled) : 0 ) : 255;
-            return inverted ? 255 - result : result;
+            return result;
         }
 
         Pixel rgb(uint8_t value) const noexcept;
@@ -54,6 +54,7 @@ namespace fractal {
         Pixel ycbcr(uint8_t value) const noexcept;
         Pixel yuv(uint8_t value) const noexcept;
 
+        Pixel invert(Pixel const& pixel) const noexcept;
     };
 
 }

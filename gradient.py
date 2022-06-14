@@ -20,6 +20,8 @@ class Gradient:
     def __init__(self, lower_limit: Color, upper_limit: Color, inverted: bool = False) -> None:
         self.__lower_limit = lower_limit
         self.__upper_limit = upper_limit
+        self.__inverted = inverted
+        self.__system = System.RGB
         self.__gradient = library.generate_gradient(
             c_uint8(lower_limit[0]),
             c_uint8(lower_limit[1]),
@@ -45,6 +47,14 @@ class Gradient:
     def upper_limit(self) -> Color:
         return self.__upper_limit
 
+    @property
+    def system(self) -> System:
+        return self.__system
+
+    @property
+    def inverted(self) -> bool:
+        return self.__inverted
+
     @lower_limit.setter
     def lower_limit(self, lower_limit: Color) -> None:
         if lower_limit == tuple(self.__lower_limit):
@@ -68,3 +78,18 @@ class Gradient:
             c_uint8(upper_limit[1]),
             c_uint8(upper_limit[2]),
         )
+
+    @system.setter
+    def system(self, new_system: System) -> None:
+        if self.__system == new_system:
+            print(new_system, self.__system)
+            return None
+        self.__system = new_system
+        library.change_gradient_system(self.ctype, c_uint8(self.__system.value))
+
+    @inverted.setter
+    def inverted(self, value: bool) -> None:
+        if self.__inverted == value:
+            return None
+        self.__inverted = value
+        library.invert_gradient(self.ctype)
