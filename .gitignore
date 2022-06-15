@@ -8,3 +8,10 @@ __pycache__/
 .vscode/
 build/
 null.d
+.ninja* 
+build*
+.cmake/
+.idea/
+Testing/ 
+*.dll
+*.dll.a
